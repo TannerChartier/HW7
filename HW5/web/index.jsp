@@ -12,7 +12,7 @@
         <title>Tanner's HW4</title>
     </head>
     <body>
-        <h1> Top Gear Episodes Web App</h1>
+        <h1>Top Gear Episodes Web App</h1>
         
         <a href="read">View All Episodes</a>
     </body>

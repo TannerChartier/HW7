@@ -11,5 +11,10 @@
     <body>
         <h1>Top Gear Episodes</h1>
         <%=table%>
+        
+        <br><br>
+        
+        <a href="add">Add A New Friend</a>
+        
     </body>
 </html>
