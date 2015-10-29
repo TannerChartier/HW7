@@ -76,6 +76,25 @@ public class ReadQuery
 		String table = "";
 
 		table += "<table border=1>";			//change this to id= or class =
+			table += "<td>";
+				table += "Season #";
+			table += "</td>";
+
+			table += "<td>";
+				table += "Episode #";
+			table += "</td>";
+			
+			table += "<td>";
+				table += "Episode Title";
+			table += "</td>";
+
+			table += "<td>";
+				table += "Episode Description";
+			table += "</td>";
+
+			table += "<td>";
+
+			table += "</td>";
 		try
 		{
 			while (this.results.next())			//as long as next record, get info and put in model
@@ -88,9 +107,9 @@ public class ReadQuery
 				episode.setEpisodeDescription(this.results.getString("EPISODEDESCR"));
 				
 				table += "<tr>";
-					table += "<td>";
-						table += episode.getEpisodeID();
-					table += "</td>";
+					//table += "<td>";
+					//	table += episode.getEpisodeID();
+					//table += "</td>";
 
 					table += "<td>";
 						table += episode.getSeasonNum();
@@ -106,6 +125,10 @@ public class ReadQuery
 
 					table += "<td>";
 						table += episode.getEpisodeDescription();
+					table += "</td>";
+					
+					table += "<td>";
+						table += "<a href=delete?episodeID=" + episode.getEpisodeID() + "> Delete </a>";
 					table += "</td>";
 				table += "</tr>";
 			}

@@ -14,19 +14,16 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Episodes;
 
 /**
  *
  * @author Tanner
  */
-public class AddQuery
+public class DeleteQuery
 {
-
 	private Connection conn;
-
-	public AddQuery()
-
+	
+	public DeleteQuery()
 	{
 		Properties props = new Properties();	//MWC
 		InputStream instr = getClass().getResourceAsStream("dbConn.properties");
@@ -35,14 +32,14 @@ public class AddQuery
 			props.load(instr);
 		} catch (IOException ex)
 		{
-			Logger.getLogger(AddQuery.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(DeleteQuery.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		try
 		{
 			instr.close();
 		} catch (IOException ex)
 		{
-			Logger.getLogger(AddQuery.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(DeleteQuery.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
 		String driver = props.getProperty("driver.name");					//gets the drivername to load
@@ -54,34 +51,35 @@ public class AddQuery
 			Class.forName(driver);									//how we load the driver -> ojdb6.jar
 		} catch (ClassNotFoundException ex)
 		{
-			Logger.getLogger(AddQuery.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(DeleteQuery.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		try
 		{
 			conn = DriverManager.getConnection(url, username, passwd);		//performing connection
 		} catch (SQLException ex)
 		{
-			Logger.getLogger(AddQuery.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(DeleteQuery.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 	
-	public void doAdd(Episodes episode)
+	public void doDelete(int episodeID)
 	{
 		try
 		{
-			String query = "INSERT INTO TopGear (SEASONNUMBER, EPISODENUMBER, EPISODETITLE, EPISODEDESCR) VALUES (?, ?, ?, ?)";
-			
+			//set up a string to hold our query
+			String query = "DELETE FROM TopGear WHERE episodeID = ?";
+			//create a preparedstatement using our query settings
 			PreparedStatement ps = conn.prepareStatement(query);
 			
-			ps.setString(1, String.valueOf(episode.getSeasonNum()));
-			ps.setString(2, String.valueOf(episode.getEpisodeNum()));
-			ps.setString(3, episode.getEpisodeTitle());
-			ps.setString(4, episode.getEpisodeDescription());
-			
+			//fill in the preparedstatement
+			ps.setInt(1, episodeID);
+			//execute the query
 			ps.executeUpdate();
 		} catch (SQLException ex)
 		{
-			Logger.getLogger(AddQuery.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(DeleteQuery.class.getName()).log(Level.SEVERE, null, ex);
 		}
+		
+		
 	}
 }

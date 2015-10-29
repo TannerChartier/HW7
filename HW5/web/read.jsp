@@ -14,7 +14,7 @@
         
         <br><br>
         
-        <a href="add">Add A New Friend</a>
+        <a href="add">Add A New Episode</a>
         
     </body>
 </html>
