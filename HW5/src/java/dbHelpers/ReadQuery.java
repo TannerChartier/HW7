@@ -75,26 +75,28 @@ public class ReadQuery
 	{
 		String table = "";
 
-		table += "<table border=1>";			//change this to id= or class =
-			table += "<td>";
-				table += "Season #";
-			table += "</td>";
+		table += "<table class='Main'>";	//change this to id= or class =
+			table += "<tr>";
+				table += "<td class='Headers'>";
+					table += "Season #";
+				table += "</td>";
 
-			table += "<td>";
-				table += "Episode #";
-			table += "</td>";
-			
-			table += "<td>";
-				table += "Episode Title";
-			table += "</td>";
+				table += "<td class='Headers'>";
+					table += "Episode #";
+				table += "</td>";
 
-			table += "<td>";
-				table += "Episode Description";
-			table += "</td>";
+				table += "<td class='Headers'>";
+					table += "Episode Title";
+				table += "</td>";
 
-			table += "<td>";
+				table += "<td class='Headers'>";
+					table += "Episode Description";
+				table += "</td>";
 
-			table += "</td>";
+				table += "<td class='Headers'>";
+
+				table += "</td>";
+			table += "</tr>";
 		try
 		{
 			while (this.results.next())			//as long as next record, get info and put in model
@@ -106,24 +108,24 @@ public class ReadQuery
 				episode.setEpisodeTitle(this.results.getString("EPISODETITLE"));
 				episode.setEpisodeDescription(this.results.getString("EPISODEDESCR"));
 				
-				table += "<tr>";
+				table += "<tr class='Entry'>";
 					//table += "<td>";
 					//	table += episode.getEpisodeID();
 					//table += "</td>";
 
-					table += "<td>";
+					table += "<td class='Centered'>";
 						table += episode.getSeasonNum();
 					table += "</td>";
 
-					table += "<td>";
+					table += "<td class='Centered'>";
 						table += episode.getEpisodeNum();
 					table += "</td>";
 
-					table += "<td>";
+					table += "<td class ='Title'>";
 						table += episode.getEpisodeTitle();
 					table += "</td>";
 
-					table += "<td>";
+					table += "<td class='Description'>";
 						table += episode.getEpisodeDescription();
 					table += "</td>";
 					
