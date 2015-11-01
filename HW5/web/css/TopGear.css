@@ -48,3 +48,16 @@ td.Title{
 td.Description{
     
 }
+div.addWrapper{
+    width: 60%;
+    border: thick solid black;
+    margin: 0 auto;
+}
+
+label.add{
+
+}
+
+form.add.label{
+        font-weight: bold;
+}
