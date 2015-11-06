@@ -5,7 +5,7 @@
  */
 package controller;
 
-import dbHelpers.ReadRecord;
+import dbHelpers.UpdateQuery;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -20,11 +20,11 @@ import model.Episodes;
  *
  * @author Tanner
  */
-@WebServlet(name = "UpdateFormServlet", urlPatterns =
+@WebServlet(name = "UpdateServlet", urlPatterns =
 {
-	"/update"
+	"/updateEpisode"
 })
-public class UpdateFormServlet extends HttpServlet
+public class UpdateServlet extends HttpServlet
 {
 
 	/**
@@ -46,10 +46,10 @@ public class UpdateFormServlet extends HttpServlet
 			out.println("<!DOCTYPE html>");
 			out.println("<html>");
 			out.println("<head>");
-			out.println("<title>Servlet UpdateFormServlet</title>");
+			out.println("<title>Servlet UpdateServlet</title>");
 			out.println("</head>");
 			out.println("<body>");
-			out.println("<h1>Servlet UpdateFormServlet at " + request.getContextPath() + "</h1>");
+			out.println("<h1>Servlet UpdateServlet at " + request.getContextPath() + "</h1>");
 			out.println("</body>");
 			out.println("</html>");
 		}
@@ -83,21 +83,26 @@ public class UpdateFormServlet extends HttpServlet
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException
 	{
-		//get the episodeID from read.jsp (generated in ReadQuery.java)
-		String episodeID = request.getParameter("ID");
-		
-		//create a ReadRecord Class
-		ReadRecord rr = new ReadRecord(episodeID);
-		
-		//use ReadRecord to get the episode data
-		rr.doRead();
-		rr.popEpisode();
-		Episodes episode = rr.getEpisode();
+		//linked to updateform.jsp
+		int episodeID = Integer.parseInt(request.getParameter("episodeID"));
+		int seasonNum = Integer.parseInt(request.getParameter("season"));
+		int episodeNum = Integer.parseInt(request.getParameter("episode"));
+		String episodeTitle = request.getParameter("episodeTitle");
+		String episodeDescription = request.getParameter("episodeDescription");
 
-		//pass episode and control to updateForm.jsp
-		request.setAttribute("episode", episode);
+		Episodes episode = new Episodes();
+		episode.setEpisodeID(episodeID);
+		episode.setSeasonNum(seasonNum);
+		episode.setEpisodeNum(episodeNum);
+		episode.setEpisodeTitle(episodeTitle);
+		episode.setEpisodeDescription(episodeDescription);
 
-		String url = "/updateForm.jsp";
+		//create an updateQuery object and use it toupdate the episode
+		UpdateQuery uq = new UpdateQuery();
+		uq.doUpdate(episode);
+
+		//pass control onto read servlett
+		String url = "/read";
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		dispatcher.forward(request, response);

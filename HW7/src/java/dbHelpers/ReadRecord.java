@@ -26,11 +26,12 @@ public class ReadRecord
 
 	private Connection conn;
 	private ResultSet results;
+	private ResultSet results1;
 
 	private Episodes episode = new Episodes();
-	private int episodeID;
+	private String episodeID;
 
-	public ReadRecord(int episodeID)
+	public ReadRecord(String episodeID)
 	{
 		Properties props = new Properties();	//MWC
 		InputStream instr = getClass().getResourceAsStream("dbConn.properties");
@@ -65,7 +66,7 @@ public class ReadRecord
 		}
 		try
 		{
-			conn = DriverManager.getConnection(url, username, passwd);		//performing connection
+			this.conn = DriverManager.getConnection(url, username, passwd);		//performing connection
 		} catch (SQLException ex)
 		{
 			Logger.getLogger(ReadRecord.class.getName()).log(Level.SEVERE, null, ex);
@@ -78,31 +79,21 @@ public class ReadRecord
 
 		try
 		{
-			String query = "Select * from TOPGEAR WHERE EPISODEID = 24";
-
-			PreparedStatement ps;
-
-			ps = conn.prepareStatement(query);
+			//String query = "Select * from TOPGEAR WHERE EPISODEID = 24";
+			//PreparedStatement ps1 = conn.prepareStatement(query);
+			//this.results = ps1.executeQuery(query);
+			
+			String query1 = "Select * from TOPGEAR WHERE EPISODEID = " + episodeID;
 			//***************************************//
 			//There's something with this,when I have the ? up top, the popEpisode no longer works
+			PreparedStatement ps1 = conn.prepareStatement(query1);
+			//fill in the preparedstatement
+			//ps1.setInt(1, Integer.parseInt(episodeID));
+
 			
-			//ps.setInt(1, episodeID);
-
-			this.results = ps.executeQuery(query);
-			this.results.next();
+			this.results = ps1.executeQuery(query1);
 			//episode.setEpisodeID(episodeID);
-
-		} catch (SQLException ex)
-		{
-			Logger.getLogger(ReadRecord.class.getName()).log(Level.SEVERE, null, ex);
-		}
-
-	}
-
-	public void popEpisode()
-	{
-		try
-		{
+			this.results.next();
 			episode.setEpisodeID(this.results.getInt("EPISODEID"));
 			episode.setSeasonNum(this.results.getInt("SEASONNUMBER"));
 			episode.setEpisodeNum(this.results.getInt("EPISODENUMBER"));
@@ -112,10 +103,17 @@ public class ReadRecord
 		{
 			Logger.getLogger(ReadRecord.class.getName()).log(Level.SEVERE, null, ex);
 		}
+
+	}
+
+	public void popEpisode()
+	{
+
 	}
 
 	public Episodes getEpisode()
 	{
 		return this.episode;
+
 	}
 }
