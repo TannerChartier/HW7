@@ -16,6 +16,10 @@
         <br><br>
         
         <a href="add">Add A New Episode</a>
+        <br><br>
+        <a href="search.jsp">Search Episodes</a>
+        <br><br>
+        <a href="read">Back to All Episodes</a>
         
     </body>
 </html>

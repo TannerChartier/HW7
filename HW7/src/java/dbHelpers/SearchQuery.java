@@ -12,13 +12,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Episodes;
 
-public class ReadQuery
+public class SearchQuery
 {
 
 	private Connection conn;
 	private ResultSet results;
 
-	public ReadQuery()
+	public SearchQuery()
 	{
 		Properties props = new Properties();	//MWC
 		InputStream instr = getClass().getResourceAsStream("dbConn.properties");
@@ -27,14 +27,14 @@ public class ReadQuery
 			props.load(instr);
 		} catch (IOException ex)
 		{
-			Logger.getLogger(ReadQuery.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(SearchQuery.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		try
 		{
 			instr.close();
 		} catch (IOException ex)
 		{
-			Logger.getLogger(ReadQuery.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(SearchQuery.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
 		String driver = props.getProperty("driver.name");					//gets the drivername to load
@@ -46,37 +46,40 @@ public class ReadQuery
 			Class.forName(driver);									//how we load the driver -> ojdb6.jar
 		} catch (ClassNotFoundException ex)
 		{
-			Logger.getLogger(ReadQuery.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(SearchQuery.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		try
 		{
 			conn = DriverManager.getConnection(url, username, passwd);		//performing connection
 		} catch (SQLException ex)
 		{
-			Logger.getLogger(ReadQuery.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(SearchQuery.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
-
-	public void doRead()
+	
+	public void doSearch(String episodeDescription)
 	{
 		try
 		{
-			String query = "Select * from TOPGEAR ORDER BY SeasonNumber, episodeNumber ASC";
-
+			//String query = "Select * FROM topgear WHERE EpisodeDescription LIKE ?";
+			String query = "Select * FROM topgear WHERE UPPER(EpisodeDescr) LIKE ? ORDER BY SeasonNumber, episodeNumber ASC";
 			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1, "%" + episodeDescription.toUpperCase() + "%");
 			this.results = ps.executeQuery();
+
 		} catch (SQLException ex)
 		{
-			Logger.getLogger(ReadQuery.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(SearchQuery.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
-
+	
 	public String getHTMLTable()
 	{
 		String table = "";
 
 		table += "<table class='Main'>";	//change this to id= or class =
 			table += "<tr>";
+			
 				table += "<td class='Headers'>";
 					table += "Season #";
 				table += "</td>";
@@ -101,6 +104,7 @@ public class ReadQuery
 		{
 			while (this.results.next())			//as long as next record, get info and put in model
 			{
+				//this.results.next();
 				Episodes episode = new Episodes();
 				episode.setEpisodeID(this.results.getInt("EPISODEID"));
 				episode.setSeasonNum(this.results.getInt("SEASONNUMBER"));
@@ -137,7 +141,7 @@ public class ReadQuery
 			}
 		} catch (SQLException ex)
 		{
-			Logger.getLogger(ReadQuery.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(SearchQuery.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
 		table += "</table>";
