@@ -1,0 +1,91 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 6, 2015, 4:00:09 AM
+    Author     : Tanner
+*/
+
+body{background-color: #D2B48C}
+
+.wrap{
+    text-align: center;
+    width: 90%;
+    margin: 0 auto;
+    border: 2px solid black;
+    margin-top: 25px;
+}
+
+.header{
+    background-color: tan;
+    text-align: left;
+    padding: 25px;
+}
+.headerImg{
+    float:left;
+    width: 370px;
+
+}
+.headerText{
+    float:left;
+    height: 105 px;
+    padding-top:50px;
+    padding-left:25px;
+    
+ 
+}
+
+.main{
+
+    text-align: left;
+    padding: 25px;
+}
+
+.footer{
+
+    text-align: left;
+    padding: 25px;
+}
+
+#navcontainer { margin-left: 30px; }
+
+/*Fat Erik's Pipelist*/
+/*http://css.maxdesign.com.au/listamatic/horizontal32.htm*/
+.navlist
+{
+    float:left;
+list-style: none;
+padding-left: 25px;
+padding-top: 10px;
+margin: 0;
+}
+
+.navlist li
+{
+display: inline;
+padding: 0;
+margin: 0;
+}
+
+.navlist li:before { content: "| "; }
+.navlist li:first-child:before { content: ""; }
+
+/*IE workaround*/
+/*All IE browsers*/
+* html #navlist li
+{
+border-left: 1px solid black;
+padding: 0 0.4em 0 0.4em;
+margin: 0 0.4em 0 -0.4em;
+}
+
+/*Win IE browsers - hide from Mac IE\*/
+* html #navlist { height: 1%; }
+
+* html #navlist li
+{
+display: block;
+float: left;
+}
