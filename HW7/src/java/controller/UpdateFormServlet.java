@@ -85,14 +85,17 @@ public class UpdateFormServlet extends HttpServlet
 	{
 		//get the episodeID
 		int episodeID = Integer.parseInt(request.getParameter("episodeID"));
+		
 		//create a ReadRecord Class
 		ReadRecord rr = new ReadRecord(episodeID);
+		
 		//use ReadRecord to get the episode data
 		rr.doRead();
+		rr.popEpisode();
 		Episodes episode = rr.getEpisode();
 
 		//pass episode and control to updateForm.jsp
-		request.setAttribute("episde", episode);
+		request.setAttribute("episode", episode);
 
 		String url = "/updateForm.jsp";
 

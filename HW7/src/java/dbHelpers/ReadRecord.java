@@ -27,7 +27,7 @@ public class ReadRecord
 	private Connection conn;
 	private ResultSet results;
 
-	private Episodes episode;
+	private Episodes episode = new Episodes();
 	private int episodeID;
 
 	public ReadRecord(int episodeID)
@@ -70,22 +70,39 @@ public class ReadRecord
 		{
 			Logger.getLogger(ReadRecord.class.getName()).log(Level.SEVERE, null, ex);
 		}
+
 	}
 
 	public void doRead()
 	{
+
 		try
 		{
-			String query = "Select * from TOPGEAR WHERE episodeID = ?";
+			String query = "Select * from TOPGEAR WHERE EPISODEID = 24";
 
-			PreparedStatement ps = conn.prepareStatement(query);
-			
-			ps.setInt(1, episodeID);
-			
-			this.results = ps.executeQuery();
+			PreparedStatement ps;
 
+			ps = conn.prepareStatement(query);
+			//***************************************//
+			//There's something with this,when I have the ? up top, the popEpisode no longer works
+			
+			//ps.setInt(1, episodeID);
+
+			this.results = ps.executeQuery(query);
 			this.results.next();
+			//episode.setEpisodeID(episodeID);
 
+		} catch (SQLException ex)
+		{
+			Logger.getLogger(ReadRecord.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+	}
+
+	public void popEpisode()
+	{
+		try
+		{
 			episode.setEpisodeID(this.results.getInt("EPISODEID"));
 			episode.setSeasonNum(this.results.getInt("SEASONNUMBER"));
 			episode.setEpisodeNum(this.results.getInt("EPISODENUMBER"));

@@ -16,7 +16,7 @@
                 <table class="update">
                     <tr>
                         <td class="right">Episode ID:</td>
-                        <td><input type="text" name="episodeID" value="<%= episode.getEpisodeID() %>" /></td>
+                        <td><input type="text" name="episodeID" value="<%=String.valueOf(episode.getEpisodeID())%>" /></td>
                     </tr>
 
                     <tr>
